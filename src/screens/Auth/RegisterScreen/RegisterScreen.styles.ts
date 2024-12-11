@@ -1,22 +1,24 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  safeArea: {
+  avoidingContainer: {
     flex: 1,
   },
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     padding: 16,
     gap: 10,
+    backgroundColor: '#fff',
+  },
+  header: {
+    textAlign: 'center',
+    marginBottom: 20,
   },
   formContainer: {
     gap: 10,
   },
-  buttonsContainer: {
-    alignItems: 'center',
-  },
-  button: {
-    width: 150,
+  registerBtn: {
+    marginTop: 40,
   },
 });

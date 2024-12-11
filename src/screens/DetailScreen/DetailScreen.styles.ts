@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
   productImg: {
     width: 200,
     height: 200,
+    resizeMode: 'contain',
   },
   name: {
     fontSize: 28,

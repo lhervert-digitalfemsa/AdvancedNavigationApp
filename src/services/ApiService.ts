@@ -1,8 +1,15 @@
-export const fetchData = async <T>(url: string, body: unknown = {}, method: string = 'GET'): Promise<T> => {
+export const fetchData = async <T>(
+  url: string,
+  body: unknown = {},
+  method: string = 'GET',
+): Promise<T> => {
   try {
     const response = await fetch(url, {
       method,
       body: method === 'POST' ? JSON.stringify(body) : undefined,
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     const data = await response.json();
@@ -17,4 +24,4 @@ export const fetchData = async <T>(url: string, body: unknown = {}, method: stri
   } catch (err) {
     throw err;
   }
-}
+};

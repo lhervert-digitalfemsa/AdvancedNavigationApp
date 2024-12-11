@@ -1,16 +1,16 @@
 
 
-export type ProductType = {
+export type ProductT = {
   id: number;
   title: string;
   price?: number;
   description?: string;
   category?: string;
   image?: string;
-  rating?: RatingType;
+  rating?: RatingT;
 }
 
-type RatingType = {
+type RatingT = {
   rate: number;
   count: number;
 }

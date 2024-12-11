@@ -1,7 +1,12 @@
+
+
 export type AppNavigatorT = {
-  'BottomNavigator': undefined;
-  'Home': undefined;
+  'Landing': undefined;
   'Profile': undefined;
   'Settings': undefined;
-  'Detail': undefined;
+}
+
+export type StackNavigatorT = {
+  'Home': undefined;
+  'Detail': { productId: number };
 }

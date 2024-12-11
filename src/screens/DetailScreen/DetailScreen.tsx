@@ -2,19 +2,26 @@ import React, { useContext, useMemo } from 'react'
 import { View, TouchableOpacity, Image, Alert, ScrollView } from 'react-native'
 import { Text } from '@ui-kitten/components'
 import AppContext, { AppContextType } from '../../hooks/useContext';
-
+import type { RouteProp } from '@react-navigation/native';
 import { styles } from './DetailScreen.styles'
 
-export function DetailScreen() {
+export function DetailScreen({ route }: { route: RouteProp<{ Detail: { productId: number } }> }) {
 
-  const idProduct = 1;
-  const { products } = useContext(AppContext) as AppContextType;
+  const idProduct = route.params.productId;
+  console.log(idProduct);
+  const { products, addToCart } = useContext(AppContext) as AppContextType;
 
   const clickEventListener = () => {
+    if (!product) {
+      Alert.alert('Error', 'Product not found');
+      return;
+    }
     Alert.alert('Success', 'Product has beed added to cart')
+    addToCart(product!);
   }
 
-  const product = useMemo(() => products.find((item) => item.id === idProduct), [idProduct]);
+  // const product = useMemo(() => products.find((item) => item.id === idProduct), [idProduct]);
+  const product = products.find((item) => item.id === idProduct)
 
   return (
     <View style={styles.container}>

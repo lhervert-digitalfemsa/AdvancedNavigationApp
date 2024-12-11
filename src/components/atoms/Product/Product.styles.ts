@@ -17,5 +17,26 @@ export const styles = StyleSheet.create({
   },
   price: {
     paddingTop: 20,
+  },
+  buttons: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  quantityContainer: {
+    width: 50,
+    height: 50,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  quantity: {
+    fontSize: 20
+  },
+  button: {
+    backgroundColor: 'transparent',
+    fontSize: 10
   }
 });

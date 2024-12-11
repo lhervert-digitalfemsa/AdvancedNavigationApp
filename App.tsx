@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { SafeAreaView, StyleSheet, } from 'react-native';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider as UIKittenAppProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { NavigationContainer } from '@react-navigation/native';
-import { RootNavigator, BottomTabNavigator, linkingConfig } from './src/navigation';
+import { RootNavigator, linkingConfig } from './src/navigation';
 import { AppProvider } from './src/hooks/useContext';
 
 function App() {
-
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
