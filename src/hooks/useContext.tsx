@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { ProductT } from "../types/Product.type";
 import useFetch from "./useFetch";
-import { CartT } from "../types/Cart.type";
+import { CartProductT, CartT } from "../types/Cart.type";
 import { update } from "lodash";
 const URL = 'https://fakestoreapi.com/products';
 export type AppContextType = {
@@ -41,23 +41,18 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
 
   /// Cart methods
   const addToCart = (product: ProductT) => {
-
+    const newProduct = { ...product, quantity: 1 } as CartProductT;
     setCart((prevCart) => {
       const existingItemIndex = prevCart.findIndex(item => item.id === product.id);
-
       if (existingItemIndex !== -1) {
         const updatedItems = [...prevCart];
         updatedItems[existingItemIndex] = {
           ...updatedItems[existingItemIndex],
           quantity: updatedItems[existingItemIndex].quantity + 1
         };
-
-        return { ...prevCart, items: updatedItems };
+        return [...updatedItems];
       } else {
-        return {
-          ...prevCart,
-          items: [...prevCart, { product, quantity: 1 }]
-        };
+        return [...prevCart, newProduct];
       }
     });
   }
@@ -70,7 +65,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
       // If new quantity is zero or less, remove product
       if (quantity <= 0) {
         const updatedItems = prevCart.filter(item => item.id !== productId);
-        return { ...prevCart, items: updatedItems };
+        return [...updatedItems];
       }
 
       // Otherwise, update quantity
@@ -80,14 +75,14 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         quantity
       };
 
-      return { ...prevCart, items: updatedItems };
+      return [...updatedItems];
     });
   };
 
   const removeFromCart = (productId: number) => {
     setCart((prevCart) => {
       const updatedItems = prevCart.filter(item => item.id !== productId);
-      return { ...prevCart, items: updatedItems };
+      return [...updatedItems];
     });
   }
 

@@ -20,8 +20,7 @@ export function DetailScreen({ route }: { route: RouteProp<{ Detail: { productId
     addToCart(product!);
   }
 
-  // const product = useMemo(() => products.find((item) => item.id === idProduct), [idProduct]);
-  const product = products.find((item) => item.id === idProduct)
+  const product = useMemo(() => products.find((item) => item.id === idProduct), [idProduct]);
 
   return (
     <View style={styles.container}>

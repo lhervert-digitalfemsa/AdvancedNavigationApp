@@ -1,6 +1,6 @@
 import { Button } from '@ui-kitten/components';
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import ProductList from '../../components/atoms/ProductList/ProductList.component';
 import AppContext, { AppContextType } from '../../hooks/useContext';
 

@@ -41,7 +41,7 @@ const Product = ({ id, title, price, image, quantity, isCart = false }: ProductT
               ) :
                 (<>
                   <Button
-                    onPress={() => updateCartItem(id, 1)}
+                    onPress={() => updateCartItem(id, quantity + 1)}
                     style={styles.button}
                   >
                     ⬆️
@@ -50,9 +50,9 @@ const Product = ({ id, title, price, image, quantity, isCart = false }: ProductT
                     <Text style={styles.quantity}>{!quantity ? 0 : quantity}</Text>
                   </View>
                   {
-                    quantity === 1 ? (
+                    quantity !== 1 ? (
                       <Button
-                        onPress={() => updateCartItem(id, -1)}
+                        onPress={() => updateCartItem(id, quantity - 1)}
                         style={styles.button}
                       >
                         ⬇️
