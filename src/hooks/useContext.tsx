@@ -5,7 +5,6 @@ import { CartProductT, CartT } from "../types/Cart.type";
 import { deleteData, getData, storeData } from "../services/StorageService";
 import { UserT } from "../types/User.type";
 import { SettingsT } from "../types/Settings.type";
-import { set } from "lodash";
 const URL = 'https://fakestoreapi.com/products';
 export type AppContextType = {
   products: ProductT[];

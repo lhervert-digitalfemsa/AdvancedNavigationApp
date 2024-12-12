@@ -10,7 +10,7 @@ import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { StackNavigatorT } from "../../../types/AppNavigator.type";
 type AppNavigatorProps = DrawerNavigationProp<StackNavigatorT, 'Detail'>;
 
-const Product = ({ id, title, price, image, quantity, isCart = false }: ProductT & { quantity?: number, isCart: boolean }) => {
+const Product = ({ id, title, price, image, quantity }: ProductT & { quantity?: number }) => {
   const { removeFromCart, updateCartItem, addToCart } = useContext(AppContext) as AppContextType;
   const navigation = useNavigation<AppNavigatorProps>();
   const handlePress = () => {

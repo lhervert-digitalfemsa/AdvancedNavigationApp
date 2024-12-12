@@ -15,7 +15,6 @@ export default function SettingsItem({
     <>
       <MenuItem
         title={title}
-        accessoryRight={<Icon name="arrow-ios-forward" />}
         onPress={onPress}
       />
       {showDivider && <Divider />}

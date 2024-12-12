@@ -1,6 +1,13 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render } from '../../../utils/test-utils';
 import ProductList from './ProductList.component';
+import { ApplicationProvider } from '@ui-kitten/components';
+import * as eva from '@eva-design/eva';
+import AppContext from "../../../hooks/useContext";
+
+jest.mock('@react-native-async-storage/async-storage', () =>
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
 
 describe('ProductList', () => {
   const mockProducts = [
@@ -10,7 +17,9 @@ describe('ProductList', () => {
   ];
 
   it('renders a list of products', () => {
-    const { getByText } = render(<ProductList products={mockProducts} />);
+    const { getByText } = render(
+      <ProductList products={mockProducts} />
+    );
 
     expect(getByText('Apple')).toBeTruthy();
     expect(getByText('Banana')).toBeTruthy();

@@ -4,16 +4,14 @@ import {
   Text,
   StyleSheet,
   TextInput,
-  ActivityIndicator,
 } from 'react-native';
 import _ from 'lodash';
 
 type PropsT = {
   onSearch: (text: string) => void;
-  isLoading: boolean;
 };
 
-export default function SearchBar({ onSearch, isLoading }: PropsT) {
+export default function SearchBar({ onSearch }: PropsT) {
   const handleOnSearch = _.debounce(text => {
     onSearch(text);
   }, 500);
@@ -22,7 +20,6 @@ export default function SearchBar({ onSearch, isLoading }: PropsT) {
     <View style={styles.container}>
       <View style={styles.loadingContainer}>
         <Text style={styles.baseText}>Search</Text>
-        {isLoading && <ActivityIndicator size="small" color="#fff" />}
       </View>
       <View>
         <TextInput

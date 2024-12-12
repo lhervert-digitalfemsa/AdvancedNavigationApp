@@ -38,14 +38,6 @@ describe('SearchBar', () => {
     expect(getByPlaceholderText('Type here to search')).toBeTruthy();
   });
 
-  it('shows ActivityIndicator when isLoading is true', () => {
-    const { getByTestId } = render(
-      <SearchBar onSearch={mockOnSearch} isLoading={true} />
-    );
-    // Ensure activity indicator appears
-    expect(getByTestId('loadingIndicator')).toBeTruthy();
-  });
-
   it('does not show ActivityIndicator when isLoading is false', () => {
     const { queryByTestId } = render(
       <SearchBar onSearch={mockOnSearch} isLoading={false} />

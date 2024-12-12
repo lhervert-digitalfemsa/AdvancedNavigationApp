@@ -1,7 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react-native';
-import { ApplicationProvider } from '@ui-kitten/components';
-import * as eva from '@eva-design/eva';
+import { fireEvent, render } from '../../../utils/test-utils';
 
 import { useForm } from '../../../hooks/useForm';
 
@@ -49,9 +47,7 @@ describe('<LoginScreen />', () => {
 
   const renderScreen = () =>
     render(
-      <ApplicationProvider {...eva} theme={eva.dark}>
-        <LoginScreen {...params} />
-      </ApplicationProvider>,
+      <LoginScreen {...params} />
     );
 
   it('should render the screen', () => {

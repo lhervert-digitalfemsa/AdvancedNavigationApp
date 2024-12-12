@@ -1,10 +1,6 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { render, fireEvent } from '../../utils/test-utils';
 import { SearchScreen } from './SearchScreen';
-import AppContext from '../../hooks/useContext';
-import { NavigationContainer } from '@react-navigation/native';
-import { ApplicationProvider } from '@ui-kitten/components';
-import * as eva from '@eva-design/eva';
 
 describe('SearchScreen', () => {
 
@@ -15,15 +11,7 @@ describe('SearchScreen', () => {
   ];
 
   const renderWithContext = (products = mockProducts) => {
-    return render(
-      <ApplicationProvider {...eva} theme={eva.dark}>
-        <NavigationContainer>
-          <AppContext.Provider value={{ products }}>
-            <SearchScreen />
-          </AppContext.Provider>
-        </NavigationContainer>
-      </ApplicationProvider>
-    );
+    return render(<SearchScreen />);
   };
 
   it('renders the header and input fields correctly', () => {
