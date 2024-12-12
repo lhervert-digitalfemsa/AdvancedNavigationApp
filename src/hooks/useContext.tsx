@@ -1,21 +1,25 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { ProductT } from "../types/Product.type";
 import useFetch from "./useFetch";
 import { CartProductT, CartT } from "../types/Cart.type";
-import { update } from "lodash";
+import { deleteData, getData, storeData } from "../services/StorageService";
+import { UserT } from "../types/User.type";
+import { SettingsT } from "../types/Settings.type";
+import { set } from "lodash";
 const URL = 'https://fakestoreapi.com/products';
 export type AppContextType = {
   products: ProductT[];
   cart?: CartT;
-  loading: boolean;
-  user?: {
-    name: string;
-    email: string;
-    token: string;
-  };
+  loading?: boolean;
+  isUserLoggedIn: boolean;
+  user?: UserT;
   error?: unknown;
-  saveUser?: (user: AppContextType['user']) => void;
-  logout?: () => void;
+  settings?: {
+    theme: 'light' | 'dark';
+  };
+  saveSettings: (settings: AppContextType['settings']) => void;
+  login: (user: AppContextType['user']) => void;
+  logout: () => void;
   addToCart: (product: ProductT) => void;
   removeFromCart: (productId: number) => void;
   updateCartItem: (productId: number, quantity: number) => void;
@@ -24,19 +28,41 @@ export type AppContextType = {
 
 const AppContext = createContext<AppContextType | null>(null);
 
+const getUser = () => {
+  const user = getData<UserT>('user');
+  return user;
+}
+
+const getSettings = async () => {
+  const settings = await getData<SettingsT>('settings');
+  return settings;
+}
+
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   /// Read products from API
   const { data: products, loading, error } = useFetch<ProductT[]>(URL);
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
   const [cart, setCart] = useState<CartT>([]);
   const [user, setUser] = useState({} as AppContextType['user']);
+  const [settings, setSettings] = useState({} as AppContextType['settings']);
+
+  /// Save Settings
+  const saveSettings = (settings: AppContextType['settings']) => {
+    storeData('settings', settings);
+    setSettings(settings);
+  }
 
   /// User methods
-  const saveUser = (user: AppContextType['user']) => {
-    setUser(user);
+  const login = (user: AppContextType['user']) => {
+    storeData('user', user);
+    setUser(user as UserT);
+    setIsUserLoggedIn(true);
   }
 
   const logout = () => {
-    setUser({} as AppContextType['user']);
+    deleteData('user');
+    setUser({} as UserT);
+    setIsUserLoggedIn(false);
   }
 
   /// Cart methods
@@ -90,14 +116,29 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     setCart([]);
   }
 
+  useEffect(() => {
+    getUser().then(user => {
+      if (user) {
+        setUser(user);
+        setIsUserLoggedIn(true);
+      }
+    });
+    getSettings().then(settings => {
+      if (settings) setSettings(settings);
+    });
+  }, [])
+
   const value = {
     products: products as ProductT[],
+    isUserLoggedIn,
     cart,
     loading,
     error,
     user,
-    saveUser,
+    settings,
+    login,
     logout,
+    saveSettings,
     addToCart,
     removeFromCart,
     updateCartItem,

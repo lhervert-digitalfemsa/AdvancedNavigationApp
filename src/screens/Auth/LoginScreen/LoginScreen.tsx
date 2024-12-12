@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import type {
   NativeStackScreenProps,
@@ -18,6 +18,7 @@ import { useSecureEntry } from './../../../hooks/useSecureEntry';
 import { fetchData } from '../../../services/ApiService';
 
 import { styles } from './LoginScreen.styles';
+import AppContext, { AppContextType } from '../../../hooks/useContext';
 
 type LoginFormT = {
   username: string;
@@ -32,7 +33,7 @@ type ScreenParamsT = NativeStackScreenProps<AuthNavigatorT, 'Login'>;
 
 export const LoginScreen = ({ navigation }: ScreenParamsT) => {
   const theme = useTheme();
-
+  const { login } = useContext(AppContext) as AppContextType;
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState('');
 
@@ -92,7 +93,10 @@ export const LoginScreen = ({ navigation }: ScreenParamsT) => {
       );
 
       if (data.token) {
-        // Save values
+        login({
+          name: username,
+          token: data.token,
+        });
       }
     } catch (error) {
       setFormError('Please check your credentials.');
@@ -101,7 +105,10 @@ export const LoginScreen = ({ navigation }: ScreenParamsT) => {
     }
   };
 
-  const handleGoToSignout = () => navigation.replace('Register');
+  const handleGoToSignout = () => {
+
+    navigation.replace('Register');
+  }
 
   return (
     <KeyboardAvoidingView

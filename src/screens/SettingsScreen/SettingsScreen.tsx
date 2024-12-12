@@ -1,15 +1,23 @@
-import React, {View, FlatList, StyleSheet, Pressable} from 'react-native';
-import {Layout} from '@ui-kitten/components';
+import React, { View, FlatList, StyleSheet, Pressable } from 'react-native';
+import { Layout, Toggle } from '@ui-kitten/components';
 import SettingsItem from '../../components/atoms/SettingsItem';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {AppNavigatorT} from '../../types/AppNavigator.type';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AppNavigatorT } from '../../types/AppNavigator.type';
+import { useContext, useState } from 'react';
+import AppContext, { AppContextType } from '../../hooks/useContext';
+import { styles } from './SettingsScreen.styles';
 
 export function SettingsScreen() {
-  const {navigate} =
+  const { navigate } =
     useNavigation<NativeStackNavigationProp<AppNavigatorT, any>>();
-
+  const { logout } = useContext(AppContext) as AppContextType;
+  const { settings, saveSettings } = useContext(AppContext) as AppContextType;
+  const [checked, setChecked] = useState(settings?.theme === 'dark');
   const AvailableSettings = [
+    {
+      label: 'Profile',
+    },
     {
       label: 'Address book',
     },
@@ -41,37 +49,37 @@ export function SettingsScreen() {
       label: 'About us',
     },
   ];
-
+  const onCheckedChange = (isDark: boolean) => {
+    setChecked(isDark);
+    saveSettings({ theme: isDark ? 'dark' : 'light' });
+  }
   return (
     <Layout level="4" style={styles.mothershipContainer}>
       <View style={styles.settingsItemsContainer}>
+        <View style={styles.toggleContainer}>
+          <Toggle
+            checked={checked}
+            onChange={onCheckedChange}
+          >
+            Dark Mode
+          </Toggle>
+        </View>
         <FlatList
           data={AvailableSettings}
-          ListHeaderComponent={
-            <Pressable
-              onPress={() => {
-                navigate('Profile');
-                console.log('Hola');
-              }}>
-              <SettingsItem title={'Profile'} />
-            </Pressable>
-          }
-          renderItem={({item, index}) => {
+          renderItem={({ item, index }) => {
             return (
               <View key={index}>
-                <SettingsItem title={item.label} showDivider={true} />
+                <SettingsItem title={item.label} showDivider={true}
+                  onPress={item.label === 'Profile' ? () => navigate('Profile') : () => { }}
+                />
               </View>
             );
           }}
         />
         <View>
-          <SettingsItem title={'SIGN OUT'} />
+          <SettingsItem title={'SIGN OUT'} onPress={logout} />
         </View>
       </View>
     </Layout>
   );
 }
-const styles = StyleSheet.create({
-  mothershipContainer: {flex: 1},
-  settingsItemsContainer: {flex: 1},
-});

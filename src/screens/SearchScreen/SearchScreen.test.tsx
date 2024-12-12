@@ -2,19 +2,27 @@ import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { SearchScreen } from './SearchScreen';
 import AppContext from '../../hooks/useContext';
+import { NavigationContainer } from '@react-navigation/native';
+import { ApplicationProvider } from '@ui-kitten/components';
+import * as eva from '@eva-design/eva';
 
 describe('SearchScreen', () => {
+
   const mockProducts = [
-    { id: 1, name: 'Apple', description: 'A red apple', price: 1.0 },
-    { id: 2, name: 'Banana', description: 'A yellow banana', price: 0.5 },
-    { id: 3, name: 'Cherry', description: 'A sweet cherry', price: 2.0 },
+    { id: 1, title: 'Apple', description: 'A red apple', price: 1.0 },
+    { id: 2, title: 'Banana', description: 'A yellow banana', price: 0.5 },
+    { id: 3, title: 'Cherry', description: 'A sweet cherry', price: 2.0 },
   ];
 
   const renderWithContext = (products = mockProducts) => {
     return render(
-      <AppContext.Provider value={{ products }}>
-        <SearchScreen />
-      </AppContext.Provider>
+      <ApplicationProvider {...eva} theme={eva.dark}>
+        <NavigationContainer>
+          <AppContext.Provider value={{ products }}>
+            <SearchScreen />
+          </AppContext.Provider>
+        </NavigationContainer>
+      </ApplicationProvider>
     );
   };
 
